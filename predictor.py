@@ -2,14 +2,15 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
+import pickle
 from pathlib import Path
 from typing import Dict, List, Union
-import pickle
-from tqdm import tqdm
+
 import cv2
 import dlib
 import numpy as np
 from skimage.feature import hog
+from tqdm import tqdm
 
 dlib.DLIB_USE_CUDA = False
 
@@ -51,9 +52,6 @@ class FaceDetector():
 
 class ImageChopper():
 
-    def __init__(self):
-        self.preprocessor = PreProcessor()
-
     def chop_image(self, image: np.ndarray,
                    rects: List[dlib.rectangle]) -> Dict[int, np.ndarray]:
         chopped_images = {}
@@ -85,7 +83,6 @@ class ImageChopper():
                       color=(0, 255, 0),
                       thickness=width // 200)
         crop_img = output_image[y1:y2, x1:x2]
-        crop_img = self.preprocessor.resize_image(crop_img, 500)
         return crop_img
 
 
