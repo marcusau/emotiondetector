@@ -6,4 +6,4 @@ with open('setting.yaml', 'r') as f:
 
 
 class Settings(BaseModel):
-    model_path: str = settings['model_path']
+    model_path: str = config_dict['model_path']
