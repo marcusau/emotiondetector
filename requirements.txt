@@ -11,6 +11,7 @@ dlib==20.0.0
 fastapi==0.119.0
 fonttools==4.60.1
 h11==0.16.0
+httptools==0.7.1
 idna==3.10
 imageio==2.37.0
 imutils==0.5.4
