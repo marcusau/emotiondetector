@@ -10,4 +10,3 @@ with open(image_path, "rb") as image_file:
     response = requests.post(url, files=files)
 print(response.status_code)
 print(response.json())
-

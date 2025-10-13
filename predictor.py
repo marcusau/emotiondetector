@@ -14,7 +14,6 @@ dlib.DLIB_USE_CUDA = False
 
 
 class PreProcessor:
-
     def _check_image(self, image: np.ndarray) -> bool:
         if not isinstance(image, np.ndarray):
             raise ValueError(f"Image is not a numpy array: {image}")
@@ -36,8 +35,7 @@ class PreProcessor:
         return image
 
 
-class FaceDetector():
-
+class FaceDetector:
     def __init__(self):
         self.hog_face_detector = dlib.get_frontal_face_detector()
 
@@ -48,12 +46,12 @@ class FaceDetector():
         return rects
 
 
-class ImageChopper():
-
-    def chop_image(self, image: np.ndarray,
-                   rects: List[dlib.rectangle]) -> Dict[int, np.ndarray]:
+class ImageChopper:
+    def chop_image(
+        self, image: np.ndarray, rects: List[dlib.rectangle]
+    ) -> Dict[int, np.ndarray]:
         chopped_images = {}
-        for (i, rect) in enumerate(rects):
+        for i, rect in enumerate(rects):
             crop_img = self._crop_face(image, rect)
             chopped_images[i] = crop_img
         return chopped_images
@@ -75,17 +73,18 @@ class ImageChopper():
         y1 = rect.top()
         x2 = rect.right()
         y2 = rect.bottom()
-        cv2.rectangle(output_image,
-                      pt1=(x1, y1),
-                      pt2=(x2, y2),
-                      color=(0, 255, 0),
-                      thickness=width // 200)
+        cv2.rectangle(
+            output_image,
+            pt1=(x1, y1),
+            pt2=(x2, y2),
+            color=(0, 255, 0),
+            thickness=width // 200,
+        )
         crop_img = output_image[y1:y2, x1:x2]
         return crop_img
 
 
-class FeatureExtractor():
-
+class FeatureExtractor:
     def __init__(self):
         self.preprocessor = PreProcessor()
         self.detector = FaceDetector()
@@ -104,15 +103,16 @@ class FeatureExtractor():
         features = {}
         for i, chopped_image in chopped_images.items():
             crop_img_gray = self.preprocessor.gray_image(chopped_image)
-            crop_img_resized = self.preprocessor.resize_image(
-                crop_img_gray, 64)
+            crop_img_resized = self.preprocessor.resize_image(crop_img_gray, 64)
 
-            feature = hog(crop_img_resized,
-                          orientations=7,
-                          pixels_per_cell=(8, 8),
-                          cells_per_block=(4, 4),
-                          block_norm='L2-Hys',
-                          transform_sqrt=False)
+            feature = hog(
+                crop_img_resized,
+                orientations=7,
+                pixels_per_cell=(8, 8),
+                cells_per_block=(4, 4),
+                block_norm="L2-Hys",
+                transform_sqrt=False,
+            )
             feature_reshaped = self._check_ndim(feature)
             features[i] = feature_reshaped
         return features
@@ -128,15 +128,15 @@ class FeatureExtractor():
             raise ValueError(f"Feature is not a 1D or 2D array: {feature}")
 
 
-class BatchFeatureExtractor():
-
-    def __init__(self, ):
+class BatchFeatureExtractor:
+    def __init__(
+        self,
+    ):
         self.extractor = FeatureExtractor()
 
     def process_batch(
         self, images: Union[np.ndarray, List[np.ndarray]]
     ) -> List[Dict[int, np.ndarray]]:
-
         features = []
         if isinstance(images, np.ndarray):
             images = [images]
@@ -154,8 +154,7 @@ class BatchFeatureExtractor():
         return features
 
 
-class EmotionPredictor():
-
+class EmotionPredictor:
     def __init__(self, model_path: Union[str, Path]):
         self.model_path = model_path
         self._model = None
@@ -168,12 +167,11 @@ class EmotionPredictor():
 
     def _load_model(self) -> pickle.load:
         if not isinstance(self.model_path, (str, Path)):
-            raise ValueError(
-                f"Model path is not a string or path: {model_path}")
+            raise ValueError(f"Model path is not a string or path: {model_path}")
         if not os.path.exists(self.model_path):
             raise FileNotFoundError(f"Model file does not exist: {model_path}")
         print(f"Loading model from {self.model_path}")
-        with open(self.model_path, 'rb') as f:
+        with open(self.model_path, "rb") as f:
             model = pickle.load(f)
         print(f"Model loaded successfully")
         return model
@@ -185,8 +183,7 @@ class EmotionPredictor():
         self._model = None  # Force reload on next access
         return self.model
 
-    def predict(self,
-                features: List[Dict[int, np.ndarray]]) -> List[Dict[int, str]]:
+    def predict(self, features: List[Dict[int, np.ndarray]]) -> List[Dict[int, str]]:
         if not isinstance(features, list):
             raise ValueError(f"Features is not a list: {features}")
         if not all(isinstance(feature, dict) for feature in features):
