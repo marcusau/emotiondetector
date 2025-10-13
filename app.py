@@ -7,18 +7,20 @@ import sys
 import numpy as np
 from PIL import Image
 
-sys.path.append(os.getcwd())
+#sys.path.append(os.getcwd())
 
 import uvicorn
 from fastapi import FastAPI, File, HTTPException, UploadFile
 
-from config import settings
+from config import Settings
 from models import Emotion, EmotionsResponse
 from predictor import BatchFeatureExtractor, EmotionPredictor
 
 # Add logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+settings = Settings()
 
 emotion_predictor = EmotionPredictor(settings.model_path)
 feature_extractor = BatchFeatureExtractor()
@@ -85,7 +87,7 @@ async def detect_emotion(image: UploadFile = File(...)) -> EmotionsResponse:
         for face_idx, emotion in prediction.items():
             emotions.append(Emotion(face_num=face_idx, emotion=emotion))
 
-    return EmotionsResponse(image_num=1, emotions=emotions)
+    return EmotionsResponse(emotions=emotions)
 
 
 # Run the application (for development purposes)

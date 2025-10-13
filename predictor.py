@@ -1,7 +1,5 @@
 import os
-import sys
 
-sys.path.append(os.getcwd())
 import pickle
 from pathlib import Path
 from typing import Dict, List, Union
