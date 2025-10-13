@@ -10,5 +10,4 @@ class Emotion(BaseModel):
 
 
 class EmotionsResponse(BaseModel):
-    image_num: int
     emotions: List[Emotion]
