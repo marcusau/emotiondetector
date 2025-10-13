@@ -124,8 +124,7 @@ class FeatureExtractor:
             return np.array(feature).reshape(1, -1)
         elif feature.ndim == 2:
             return feature
-        else:
-            raise ValueError(f"Feature is not a 1D or 2D array: {feature}")
+        raise ValueError(f"Feature is not a 1D or 2D array: {feature}")
 
 
 class BatchFeatureExtractor:
