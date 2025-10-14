@@ -129,9 +129,7 @@ print_score(model, X_train, y_train, X_test, y_test, train=False)
 # 3-FOLDS
 cv = KFold(n_splits=3, random_state=1, shuffle=True)
 # evaluate model
-scores = cross_val_score(
-    model, total_features, total_labels, scoring="accuracy", cv=cv, n_jobs=-1
-)
+scores = cross_val_score(model, total_features, total_labels, scoring="accuracy", cv=cv, n_jobs=-1)
 # Report performance
 
 print("SVM MEAN  Accuracy: ", str(np.mean(scores) * 100)[:5] + "%")

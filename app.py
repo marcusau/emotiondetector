@@ -69,9 +69,7 @@ async def detect_emotion(image: UploadFile = File(...)) -> EmotionsResponse:
     try:
         features = feature_extractor.process_batch(image_np)
         if not features:
-            logger.error(
-                f"No features detected: {features} from image: {image_content}"
-            )
+            logger.error(f"No features detected: {features} from image: {image_content}")
             raise HTTPException(status_code=500, detail="No features detected")
         predictions = emotion_predictor.predict(features)
     except Exception as e:

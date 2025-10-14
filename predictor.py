@@ -47,9 +47,7 @@ class FaceDetector:
 
 
 class ImageChopper:
-    def chop_image(
-        self, image: np.ndarray, rects: List[dlib.rectangle]
-    ) -> Dict[int, np.ndarray]:
+    def chop_image(self, image: np.ndarray, rects: List[dlib.rectangle]) -> Dict[int, np.ndarray]:
         chopped_images = {}
         for i, rect in enumerate(rects):
             crop_img = self._crop_face(image, rect)
@@ -133,22 +131,16 @@ class BatchFeatureExtractor:
     ):
         self.extractor = FeatureExtractor()
 
-    def process_batch(
-        self, images: Union[np.ndarray, List[np.ndarray]]
-    ) -> List[Dict[int, np.ndarray]]:
+    def process_batch(self, images: Union[np.ndarray, List[np.ndarray]]) -> List[Dict[int, np.ndarray]]:
         features = []
         if isinstance(images, np.ndarray):
             images = [images]
         for image in tqdm(images, total=len(images), desc="detecting faces"):
             feature = self.extractor.extract_features(image)
             if not isinstance(feature, dict):
-                raise ValueError(
-                    f"Feature is not a dictionaries: {feature} for image: {image}"
-                )
+                raise ValueError(f"Feature is not a dictionaries: {feature} for image: {image}")
             if feature is None:
-                raise ValueError(
-                    f"Feature is not a dictionary: {feature} for image: {image}"
-                )
+                raise ValueError(f"Feature is not a dictionary: {feature} for image: {image}")
             features.append(feature)
         return features
 
@@ -186,9 +178,7 @@ class EmotionPredictor:
         if not isinstance(features, list):
             raise ValueError(f"Features is not a list: {features}")
         if not all(isinstance(feature, dict) for feature in features):
-            raise ValueError(
-                f"Not all feature in Features item is a dictionary: {features}"
-            )
+            raise ValueError(f"Not all feature in Features item is a dictionary: {features}")
 
         predictions = []
         for image_idx, feature_dict in enumerate(features):
@@ -198,8 +188,6 @@ class EmotionPredictor:
                     prediction = self.model.predict(feature)
                     image_predictions[face_idx] = str(prediction[0])
                 except Exception as e:
-                    raise RuntimeError(
-                        f"Prediction failed for image {image_idx}, face {face_idx}: {e}"
-                    )
+                    raise RuntimeError(f"Prediction failed for image {image_idx}, face {face_idx}: {e}")
             predictions.append(image_predictions)
         return predictions

@@ -32,9 +32,7 @@ def resize_image(image: np.ndarray, size: int) -> np.ndarray:
     return cv2.resize(image, (size, size))
 
 
-def draw_rect(
-    image: np.ndarray, rect: dlib.rectangle, color: Tuple[int, int, int] = (0, 255, 0)
-) -> np.ndarray:
+def draw_rect(image: np.ndarray, rect: dlib.rectangle, color: Tuple[int, int, int] = (0, 255, 0)) -> np.ndarray:
     if not isinstance(image, np.ndarray):
         raise ValueError(f"Image is not a numpy array: {image}")
     if not isinstance(rect, dlib.rectangle):
@@ -47,9 +45,7 @@ def draw_rect(
     y1 = rect.top()
     x2 = rect.right()
     y2 = rect.bottom()
-    cv2.rectangle(
-        image, pt1=(x1, y1), pt2=(x2, y2), color=color, thickness=width // 200
-    )
+    cv2.rectangle(image, pt1=(x1, y1), pt2=(x2, y2), color=color, thickness=width // 200)
     crop_img = image[y1:y2, x1:x2]
     crop_img = resize_image(crop_img, 500)
     return crop_img
