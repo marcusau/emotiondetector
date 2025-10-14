@@ -158,9 +158,9 @@ class EmotionPredictor:
 
     def _load_model(self) -> pickle.load:
         if not isinstance(self.model_path, (str, Path)):
-            raise ValueError(f"Model path is not a string or path: {model_path}")
+            raise ValueError(f"Model path is not a string or path: {self.model_path}")
         if not os.path.exists(self.model_path):
-            raise FileNotFoundError(f"Model file does not exist: {model_path}")
+            raise FileNotFoundError(f"Model file does not exist: {self.model_path}")
         print(f"Loading model from {self.model_path}")
         with open(self.model_path, "rb") as f:
             model = pickle.load(f)
