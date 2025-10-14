@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import Tuple, Union
 
 import cv2
-import numpy as np
 import dlib
+import numpy as np
 
 
 # preprocessing: load the input image, resize it, and convert it to grayscale

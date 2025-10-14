@@ -1,25 +1,25 @@
 import io
 import logging
 import os
-import pickle
-import sys
 
 import numpy as np
 import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from PIL import Image
 
-from config import Settings
 from models import Emotion, EmotionsResponse
 from predictor import BatchFeatureExtractor, EmotionPredictor
 
+# Load environment variables
+load_dotenv()
+model_path = os.getenv("MODEL_PATH")
 # Add logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-settings = Settings()
 
-emotion_predictor = EmotionPredictor(settings.model_path)
+emotion_predictor = EmotionPredictor(model_path)
 feature_extractor = BatchFeatureExtractor()
 
 # Initialize FastAPI app

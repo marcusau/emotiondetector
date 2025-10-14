@@ -1,7 +1,6 @@
 import requests
-import base64
 
-url = "http://localhost:5432/image/"
+url = "http://localhost:8000/image/"
 
 image_path = "images/image1.jpg"
 

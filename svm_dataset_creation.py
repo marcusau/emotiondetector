@@ -1,17 +1,9 @@
 import os
 import pickle
 import random
-import sys
-
-sys.path.append(os.getcwd())
 from collections import defaultdict
 
-import cv2
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from imutils import paths
-from matplotlib import pyplot as plt
 from skimage.feature import hog
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
