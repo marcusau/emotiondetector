@@ -33,12 +33,11 @@ RUN apt-get update -y && \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY .env .
 COPY models.py .
 COPY predictor.py .
-COPY config.py .
 COPY app.py .
 COPY util.py .
-COPY setting.yaml .
 COPY svm_model.pkl .
 
 # Expose the port the app will run on
