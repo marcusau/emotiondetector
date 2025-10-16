@@ -38,7 +38,6 @@ COPY models.py .
 COPY predictor.py .
 COPY app.py .
 COPY util.py .
-COPY svm_model.pkl .
 
 # Expose the port the app will run on
 EXPOSE 8000
