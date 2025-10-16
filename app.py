@@ -18,7 +18,6 @@ model_path = os.getenv("MODEL_PATH")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 emotion_predictor = EmotionPredictor(model_path)
 feature_extractor = BatchFeatureExtractor()
 
@@ -32,6 +31,12 @@ app = FastAPI(
 
 @app.get("/healthcheck")
 async def root():
+    """
+    Health check endpoint to verify API connectivity.
+    
+    Returns:
+        dict: A dictionary containing a success message indicating the API is running.
+    """
     return {"message": "connection successful"}
 
 
@@ -44,6 +49,26 @@ async def root():
     tags=["emotion-detection"],
 )
 async def detect_emotion(image: UploadFile = File(...)) -> EmotionsResponse:
+    """
+    Detect emotions from an uploaded image using computer vision models.
+    
+    This endpoint processes an uploaded image to detect faces and predict emotions
+    for each detected face. The image is validated, converted to the appropriate
+    format, and processed through feature extraction and emotion prediction models.
+    
+    Args:
+        image (UploadFile): The uploaded image file to analyze for emotions.
+        
+    Returns:
+        EmotionsResponse: A response object containing a list of detected emotions
+                         with their corresponding face indices.
+                         
+    Raises:
+        HTTPException: 400 if the image content is invalid, has invalid dimensions,
+                      or results in an empty image array.
+        HTTPException: 500 if no features are detected in the image or if there's
+                      an error during image processing.
+    """
     image_content = await image.read()
     if not image_content or not isinstance(image_content, bytes):
         logger.error(f"Invalid image content: {image_content}")
