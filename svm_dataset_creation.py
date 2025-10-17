@@ -35,11 +35,11 @@ example_image_master_path = "ckplus/CK+48"
 def print_score(clf, X_train, y_train, X_test, y_test, train=True):
     """
     Print detailed performance metrics for a trained classifier.
-    
+
     This function evaluates and displays comprehensive performance metrics including
     accuracy, classification report, and confusion matrix for either training or
     testing data.
-    
+
     Args:
         clf: The trained classifier (SVM model).
         X_train (list): Training feature vectors.
@@ -47,7 +47,7 @@ def print_score(clf, X_train, y_train, X_test, y_test, train=True):
         X_test (list): Testing feature vectors.
         y_test (list): Testing labels.
         train (bool): If True, evaluate on training data; if False, evaluate on test data.
-        
+
     Returns:
         None: This function prints results to console.
     """

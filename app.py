@@ -33,7 +33,7 @@ app = FastAPI(
 async def root():
     """
     Health check endpoint to verify API connectivity.
-    
+
     Returns:
         dict: A dictionary containing a success message indicating the API is running.
     """
@@ -51,18 +51,18 @@ async def root():
 async def detect_emotion(image: UploadFile = File(...)) -> EmotionsResponse:
     """
     Detect emotions from an uploaded image using computer vision models.
-    
+
     This endpoint processes an uploaded image to detect faces and predict emotions
     for each detected face. The image is validated, converted to the appropriate
     format, and processed through feature extraction and emotion prediction models.
-    
+
     Args:
         image (UploadFile): The uploaded image file to analyze for emotions.
-        
+
     Returns:
         EmotionsResponse: A response object containing a list of detected emotions
                          with their corresponding face indices.
-                         
+
     Raises:
         HTTPException: 400 if the image content is invalid, has invalid dimensions,
                       or results in an empty image array.
